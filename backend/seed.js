@@ -222,8 +222,10 @@ const seedDatabase = async () => {
 
     console.log('Created admin and test users');
 
-    // Create products
-    await Product.insertMany(sampleProducts);
+    // Create products (using create to trigger pre-save hooks for slug generation)
+    for (const productData of sampleProducts) {
+      await Product.create(productData);
+    }
     console.log(`Seeded ${sampleProducts.length} products`);
 
     console.log('Database seeding completed successfully!');
